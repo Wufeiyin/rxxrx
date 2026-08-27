@@ -1,0 +1,230 @@
+       /* ========== 页面基础样式 ========== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-image: url(../images/photobk.png);
+            background-repeat: no-repeat;          /* 不重复 */
+            background-size: cover;                /* 铺满整个屏幕 */
+            background-position: center;           /* 居中 */
+            background-attachment: fixed;   
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            padding: 20px;
+
+            /*  外部容器：多卡片自动换行 */
+            display: flex;
+            flex-wrap: wrap;          /* 宽度不够时换行 */
+            justify-content: center;  /* 卡片水平居中（也可改为 flex-start 左对齐） */
+            gap: 20px;               /* 卡片之间的间距 */
+            align-items: flex-start;  /* 顶部对齐 */
+        }
+
+        /* ========== 单张朋友圈卡片（固定宽度） ========== */
+        .card {
+            width: 380px;             /* 固定宽度，保证内部九宫格3列*/
+            background: rgb(255,255,255);
+            border-radius: 16px;
+            padding: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.2s;
+            flex-shrink: 0;           /* 防止被压缩变窄 */
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #efefef;
+        }
+
+        .avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: #07c160;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 20px;
+            font-weight: bold;
+            margin-right: 12px;
+        }
+
+        .user-info {
+            flex: 1;
+        }
+        .user-info .name {
+            font-weight: 600;
+            font-size: 16px;
+            color: #1a1a1a;
+        }
+        .user-info .desc {
+            font-size: 13px;
+            color: #999;
+        }
+
+        /* ========== ★★★ 内部九宫格：固定 3 列（原封不动） ★★★ ========== */
+        .grid {
+            display: flex;          /* 弹性盒子 */
+            flex-wrap: wrap;        /* 换行 */
+            gap: 4px;               /* 缝隙 */
+            margin-top: 12px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        /* 每个图片容器 —— 固定占 1/3 宽度 */
+        .grid-item {
+            flex: 0 0 calc(33.333% - 3px);  /* 坚决保持 3 列 */
+            aspect-ratio: 1 / 1;            /* 正方形 */
+            cursor: pointer;
+            overflow: hidden;
+            background: #e9e9e9;
+        }
+
+        .grid-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.25s ease;
+        }
+
+        .grid-item:hover img {
+            transform: scale(1.04);
+        }
+
+        /* ========== 灯箱（大图弹窗） ========== */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.92);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            backdrop-filter: blur(2px);
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox img {
+            max-width: 90%;
+            max-height: 80%;
+            object-fit: contain;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+            animation: zoomIn 0.25s ease;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 30px;
+            right: 40px;
+            font-size: 40px;
+            color: #fff;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: 0.2s;
+            line-height: 1;
+        }
+        .close-btn:hover {
+            opacity: 1;
+            transform: rotate(90deg);
+        }
+
+        .hint {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 14px;
+            margin-top: 20px;
+            letter-spacing: 1px;
+        }
+
+        /* ====== 顶部装饰横幅 ====== */
+.top-banner {
+    width: 100%;
+    padding: 20px 0;
+    background: linear-gradient(135deg, #68c1f4 0%, #fcfdfd 100%, #79deff 100%);
+    /* 渐变背景 */
+    color: #fff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    margin-bottom: 30px;          /* 与下方卡片留出间距 */
+    
+    /*  Flexbox 核心 */
+    display: flex;
+    justify-content: center;      /* 水平居中 */
+    align-items: center;          /* 垂直居中 */
+    min-height: 120px;            /* 可调 */
+}
+
+.banner-content {
+    text-align: center;
+    /* 内部文字居中 */
+}
+
+.banner-content h1 {
+    margin: 0;
+    font-size: 2.2rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.banner-content p {
+    margin: 6px 0 0 0;
+    font-size: 1.1rem;
+    opacity: 0.9;
+    letter-spacing: 1px;
+}
+
+/* ====== 响应式微调（手机） ====== */
+@media (max-width: 480px) {
+    .top-banner {
+        min-height: 80px;
+        padding: 12px 0;
+    }
+    .banner-content h1 {
+        font-size: 1.6rem;
+    }
+    .banner-content p {
+        font-size: 0.9rem;
+    }
+}
+
+        @keyframes zoomIn {
+            0% { opacity: 0; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        /* ========== 响应式微调：屏幕很窄时卡片自适应宽度 ========== */
+        @media (max-width: 420px) {
+            .card {
+                width: 100%;          /* 手机屏占满，保证内部3列依然成立 */
+                min-width: 0;
+            }
+            .grid {
+                gap: 3px;
+            }
+            .grid-item {
+                flex: 0 0 calc(33.333% - 2px);
+            }
+            .close-btn {
+                top: 20px;
+                right: 25px;
+                font-size: 32px;
+            }
+        }

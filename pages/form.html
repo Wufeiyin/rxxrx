@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <link rel="stylesheet" href="../css/comment.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>留言板</title>
+   
+</head>
+<body>
+    <div class="box">
+			<a href="../index.html">回到主页</a>
+			<a href="../pages/music.html" class="active">音乐品鉴</a>
+			<a href="../pages/article.html">文字留档</a>
+			<a href="../pages/form.html">留言气球</a>
+			<a href="../pages/photos.html">光影瞬间</a>
+		</div>
+ 
+
+    <div class="app-container">
+        <header class="page-header">
+            <h1>📝 留言板</h1>
+            <p>分享你的想法 · 记录每一刻</p>
+        </header>
+
+        <!-- 表单区 -->
+        <section class="form-section">
+            <h2>✍️ 留下你的足迹</h2>
+            <form id="msgForm">
+                <div class="form-group">
+                    <label for="name">昵称</label>
+                    <input type="text" id="name" placeholder="你的名字" required>
+                </div>
+                <div class="form-group">
+                    <label for="content">留言内容</label>
+                    <textarea id="content" placeholder="说点什么..." required></textarea>
+                </div>
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-primary">💬 提交留言</button>
+                    <button type="button" id="exportBtn" class="btn btn-secondary">📥 导出 JSON</button>
+                    <button type="button" id="clearBtn" class="btn btn-danger">🗑️ 清空留言</button>
+                </div>
+            </form>
+        </section>
+
+        <!-- 表格区 -->
+        <section class="table-section">
+            <h2>📋 大家的留言</h2>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width:60px;">序号</th>
+                            <th style="width:20%;">昵称</th>
+                            <th>留言</th>
+                            <th style="width:160px;">时间</th>
+                        </tr>
+                    </thead>
+                    <tbody id="msgList">
+                        <!-- JS 动态渲染 -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <!-- 底部 -->
+    <footer class="page-footer">
+        © 2026 by wufeiyin · 用文字连接彼此
+    </footer>
+
+    <script>
+        // ==========================================
+        // 存储层（localStorage）
+        // ==========================================
+        const STORAGE_KEY = 'messages';
+
+        function getMessages() {
+            const data = localStorage.getItem(STORAGE_KEY);
+            return data ? JSON.parse(data) : [];
+        }
+
+        function saveMessages(messages) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(messages));
+        }
+
+        // ==========================================
+        // 渲染表格
+        // ==========================================
+        function renderTable() {
+            const messages = getMessages();
+            const tbody = document.getElementById('msgList');
+            if (messages.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" class="empty-msg">✨ 暂无留言，快来抢沙发！</td></tr>`;
+                return;
+            }
+            let html = '';
+            messages.forEach((msg, index) => {
+                const name = escapeHtml(msg.name);
+                const content = escapeHtml(msg.content);
+                html += `<tr>
+                    <td>${index + 1}</td>
+                    <td>${name}</td>
+                    <td>${content}</td>
+                    <td>${msg.time || ''}</td>
+                </tr>`;
+            });
+            tbody.innerHTML = html;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // ==========================================
+        // 表单提交
+        // ==========================================
+        document.getElementById('msgForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('name').value.trim();
+            const content = document.getElementById('content').value.trim();
+            if (!name || !content) {
+                alert('请完整填写信息！');
+                return;
+            }
+
+            const messages = getMessages();
+            messages.push({
+                name: name,
+                content: content,
+                time: new Date().toLocaleString()
+            });
+            saveMessages(messages);
+            renderTable();
+            document.getElementById('name').value = '';
+            document.getElementById('content').value = '';
+        });
+
+        // ==========================================
+        // 导出 JSON
+        // ==========================================
+        document.getElementById('exportBtn').addEventListener('click', function() {
+            const messages = getMessages();
+            if (messages.length === 0) {
+                alert('暂无数据可导出');
+                return;
+            }
+            const json = JSON.stringify(messages, null, 2);
+            const blob = new Blob([json], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `留言数据_${new Date().toISOString().slice(0,10)}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        });
+
+        // ==========================================
+        // 清空留言
+        // ==========================================
+        document.getElementById('clearBtn').addEventListener('click', function() {
+            if (confirm('确定要清空所有留言吗？此操作不可撤销！')) {
+                localStorage.removeItem(STORAGE_KEY);
+                renderTable();
+            }
+        });
+
+        // ==========================================
+        // 初始化
+        // ==========================================
+        renderTable();
+    </script>
+</body>
+</html>

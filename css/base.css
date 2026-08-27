@@ -1,0 +1,287 @@
+/* 公共样式 */
+/*导航栏*/
+html,body,ul,li,ol,dl,dd,dt,p,h1,h2,h3,h4,h5,h6,form,fieldset,legend,img{
+	margin: 0;
+	padding: 0;
+}
+li{
+	list-style: none;
+}
+a{
+	text-decoration: none;
+	color: #89898b;
+}
+i,em{
+	font-style: normal;
+}
+b,strong{
+	font-weight: normal;
+}
+/* 高度坍塌 */
+.clearfix:after,
+.clearfix:before{
+	content: "";
+	display: block;
+	clear: both;
+	overflow: hidden;
+	visibility: hidden;
+	height: 0;
+}
+/* 以上均为通用设置 */
+
+/* 左侧固定悬浮框 */
+/* ========== 左侧固定悬浮框（完整版） ========== */
+.box {
+	width: 130px;                       /* 保留 */
+	position: fixed;                    /* 保留 */
+	left: 20px;                         /* 保留 */
+	top: 270px;                         /* 保留 */
+	z-index: 99;                        /* 保留 */
+	
+	/* ---------- 新配色替换 ---------- */
+	background-color: rgba(255, 255, 255, 0.75);  /* 半透明白 */
+	backdrop-filter: blur(20px);        /* 毛玻璃模糊（新增） */
+	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08); /* 更柔和的阴影 */
+	border: 1px solid rgba(255, 255, 255, 0.3); /* 新增细边框，增加质感 */
+	
+	/* ---------- 保留原有 ---------- */
+	border-radius: 15px;                /* 保留 */
+	padding: 10px 0;                    /* 保留 */
+	text-align: center;                 /* 保留 */
+}
+
+/* ========== 导航链接 ========== */
+.box a {
+	/* ---------- 保留原有布局参数 ---------- */
+	display: block;                     
+	padding: 15px 0;                    
+	margin: 10px 15px;                  
+	text-decoration: none;              
+	font-size: 20px;                    
+	border-radius: 15px;                
+	transition: background-color 0.3s, transform 0.2s; /* 保留过渡 */
+	
+	/* ---------- 新配色替换 ---------- */
+	color: #2c3e50;                     /* 深灰蓝文字，清晰 */
+	background-color: transparent;      /* 取消半透明白底，改为透明 */
+}
+
+/* ========== 悬停效果 ========== */
+.box a:hover {
+	/* ---------- 保留交互 ---------- */
+	transform: scale(1.05);             /* 保留放大效果 */
+	
+	/* ---------- 新配色替换 ---------- */
+	background-color: #eef2f6;          /* 极浅灰底 */
+	color: #1a2634;                     /* 深色文字，保证看清 */
+	font-weight: bold;                  /* 加粗 */
+}
+
+/* ========== 点击按下效果 ========== */
+.box a:active {
+	/* ---------- 保留交互 ---------- */
+	transform: scale(1.05);             /* 保留按下放大 */
+	
+	/* ---------- 新配色替换 ---------- */
+	background-color: #d0d9e6;          /* 点击时更深一点的灰蓝 */
+	color: #2c3e50;                     /* 恢复深灰蓝 */
+	font-weight: bold;
+}
+/* 右侧固定悬浮框 */
+.box-right {
+	width: 70px;
+	height: 70px;
+	position: fixed;
+	right: 70px;
+	bottom: 70px;
+	z-index: 99;
+	background: url(../img/返回顶部.png) no-repeat;
+	background-size: 75px;
+	background-position-x: -2px;
+	background-position-y: -2px;
+	border-radius: 70px;
+	box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+.box-right:hover{
+	background-position-y: -80px;
+}
+.box-right a{
+	display: block;
+	width: 70px;
+	height: 70px;
+}
+
+/* 尾部固定尾页 */
+#footer {
+	width: 100%;
+	text-align: center;
+	font-size: 1vw;
+	background-color: #e0f5df;
+	padding: 1.5vw 0;
+	margin-top: 3vw;
+	color: #444;
+	line-height: 2vw;
+}
+#footer a {
+	font-size: 1.2vw;
+	color: #4c7737;
+	text-decoration: none;
+	margin: 0 0.5vw;
+}
+#footer a:hover {
+  text-decoration: underline;
+}
+#footer p{
+	line-height: 3vw;
+	font-size: 1.2vw;
+}
+
+/* ======================================== */
+/* ====== 移动端适配（平板 & 手机） ====== */
+/* ======================================== */
+
+/* ---------- 平板设备（≤ 768px） ---------- */
+@media screen and (max-width: 768px) {
+    /* 左侧导航：缩小宽度，移至底部，避免遮挡内容 */
+    .box {
+        width: 120px;
+        left: 10px;
+        top: auto;              /* 取消顶部定位 */
+        bottom: 80px;           /* 固定在底部上方 */
+        padding: 8px 0;
+        border-radius: 12px;
+        background-color: rgba(255, 255, 255, 0.85); /* 稍高不透明度，提升可读性 */
+        backdrop-filter: blur(10px);
+    }
+    .box a {
+        font-size: 16px;
+        padding: 10px 0;
+        margin: 6px 12px;
+        border-radius: 10px;
+    }
+
+    /* 返回顶部按钮：缩小尺寸，调整位置 */
+    .box-right {
+        width: 54px;
+        height: 54px;
+        right: 20px;
+        bottom: 20px;
+        background-size: 54px;          /* 适应新尺寸 */
+        background-position-x: 0px;
+        background-position-y: 0px;
+        border-radius: 54px;
+    }
+    .box-right:hover {
+        background-position-y: -58px;    /* 悬停偏移量需重新计算（≈ 高度 + 4px） */
+    }
+    .box-right a {
+        width: 54px;
+        height: 54px;
+    }
+
+    /* 页脚：加大字体，增加内边距 */
+    #footer {
+        font-size: 1.8vw;
+        padding: 2.5vw 0;
+        margin-top: 4vw;
+        line-height: 3vw;
+    }
+    #footer a {
+        font-size: 1.8vw;
+        margin: 0 1vw;
+    }
+    #footer p {
+        font-size: 1.8vw;
+        line-height: 3.5vw;
+    }
+}
+
+/* ---------- 手机设备（≤ 480px） ---------- */
+@media screen and (max-width: 480px) {
+    /* 左侧导航：进一步缩小，变成迷你导航 */
+    .box {
+        width: 80px;
+        left: 5px;
+        bottom: 70px;
+        padding: 6px 0;
+        border-radius: 10px;
+        background-color: rgba(255, 255, 255, 0.92);
+        backdrop-filter: blur(8px);
+    }
+    .box a {
+        font-size: 13px;
+        padding: 8px 0;
+        margin: 4px 8px;
+        border-radius: 8px;
+        letter-spacing: 0.5px;
+    }
+
+    /* 返回顶部按钮：最小触摸尺寸（44px） */
+    .box-right {
+        width: 44px;
+        height: 44px;
+        right: 10px;
+        bottom: 10px;
+        background-size: 44px;
+        background-position-x: 0px;
+        background-position-y: 0px;
+        border-radius: 44px;
+    }
+    .box-right:hover {
+        background-position-y: -48px;    /* 偏移量：高度 + 4px */
+    }
+    .box-right a {
+        width: 44px;
+        height: 44px;
+    }
+
+    /* 页脚：使用更大比例字体，确保清晰 */
+    #footer {
+        font-size: 2.8vw;
+        padding: 4vw 0;
+        margin-top: 6vw;
+        line-height: 4.5vw;
+    }
+    #footer a {
+        font-size: 2.8vw;
+        margin: 0 1.5vw;
+    }
+    #footer p {
+        font-size: 2.8vw;
+        line-height: 5vw;
+    }
+}
+/**/
+/* ---------- 超小屏设备（≤ 360px，如老式手机） ---------- */
+@media screen and (max-width: 360px) {
+    .box {
+        width: 65px;
+        bottom: 60px;
+        left: 4px;
+        padding: 4px 0;
+    }
+    .box a {
+        font-size: 11px;
+        padding: 6px 0;
+        margin: 3px 5px;
+    }
+    .box-right {
+        width: 40px;
+        height: 40px;
+        right: 8px;
+        bottom: 8px;
+        background-size: 40px;
+    }
+    .box-right a {
+        width: 40px;
+        height: 40px;
+    }
+    #footer {
+        font-size: 3.2vw;
+        padding: 5vw 0;
+    }
+    #footer a,
+    #footer p {
+        font-size: 3.2vw;
+    }
+}

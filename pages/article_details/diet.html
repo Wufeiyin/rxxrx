@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+   
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文章详情 · 健康饮食</title>
+    <style>
+        /* ====== 全局重置 ====== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* ====== 禁止页面滚动，背景固定 ====== */
+        html, body {
+            height: 100%;
+            overflow: hidden;                 /* 禁止页面滚动 */
+            font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+        }
+
+        /* ====== 背景图（固定在 body 上） ====== */
+        body {
+            background-image: url("../../images/detailbk1.png");   /* 换成你的图 */
+            background-repeat: no-repeat;
+            background-attachment: fixed;              /* ★ 固定不动 */
+            background-position: center;
+            background-size: cover;
+            background-color: #2c3e50;                 /* 备用底色 */
+            
+            /* 用 Flex 让卡片居中 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+        }
+
+        /* ====== 卡片容器（带半透明背景，提升文字可读性） ====== */
+        .detail-card {
+            width: 100%;
+            max-width: 75%;
+            max-height: 80%;                 /* ★ 限制最大高度，超出滚动 */
+            overflow-y: auto;                 /* 内容多时出现滚动条 */
+            background: transparent
+            backdrop-filter transparent;       /* 毛玻璃效果（可选） */
+            
+            
+            /* 滚动条样式（美化，可选） */
+            scrollbar-width: thin;
+            scrollbar-color: #ccc transparent;
+        }
+
+        .detail-card::-webkit-scrollbar {
+            width: 6px;
+        }
+        .detail-card::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .detail-card::-webkit-scrollbar-thumb {
+            background: #bbb;
+            border-radius: 10px;
+        }
+
+        /* ====== 文章内容样式 ====== */
+        .article-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+
+        .article-title::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 4px;
+            margin-top: 14px;
+        }
+
+        .article-meta {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            margin: 14px 0 24px 0;
+            font-size: 0.95rem;
+            color: #666;
+        }
+
+        .article-tag {
+            background: #f0f0f5;
+            padding: 2px 16px;
+            border-radius: 20px;
+            color: #555;
+            font-size: 0.85rem;
+        }
+
+        .article-body p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        .article-body p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* ====== 返回按钮（可有可无） ====== */
+        .back-link {
+            display: inline-block;
+            margin-top: 24px;
+            color: #667eea;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+        .back-link:hover {
+            color: #4a5bb5;
+            text-decoration: underline;
+        }
+
+        /* ====== 响应式（手机） ====== */
+        @media (max-width: 600px) {
+            body { padding: 16px; }
+            .detail-card {
+                padding: 24px 20px;
+                max-height: 90vh;
+            }
+            .article-title { font-size: 1.6rem; }
+            .article-body p { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+   
+    <div class="detail-card">
+        <h1 class="article-title">🥗 健康饮食的 5 个小习惯</h1>
+        <div class="article-meta">
+            <span>📅 2025-07-26</span>
+            <span class="article-tag"># 饮食 · 生活</span>
+        </div>
+        <div class="article-body">
+            <p>在快节奏的现代生活中，我们常常忽略了最基础的健康基石——饮食。很多人以为吃得少就能瘦，吃得多就有营养，但其实，真正影响我们状态的，往往是那些微小而持续的饮食习惯。今天想和你分享我亲身实践并受益的 5 个饮食小习惯，简单、易行，却能带来显著改变。</p>
+
+            <p><strong>第一，早起先喝一杯温水。</strong> 这听起来太简单了，但它的作用远超想象。经过一夜的睡眠，身体处于轻度脱水状态，一杯温水（约300ml）能温和唤醒肠胃，促进新陈代谢，还能帮助排便。我会在床边放一个保温杯，醒来后慢慢喝完，再开始早餐。这个习惯坚持一个月，你会发现皮肤和消化都有明显改善。</p>
+
+            <p><strong>第二，每餐先吃蔬菜，再吃蛋白质，最后吃主食。</strong> 这个顺序能平稳血糖，避免餐后犯困。蔬菜中的膳食纤维能增加饱腹感，减少对高热量主食的摄入量。我的午餐标配是一大份绿叶菜（清炒或凉拌），加上一份优质蛋白（鸡胸肉、鱼、豆腐），最后再吃小半碗杂粮饭。这样吃，既满足又不容易长胖。</p>
+
+            <p><strong>第三，用天然调味品代替加工酱料。</strong> 市售的番茄酱、沙拉酱、辣椒酱往往含有大量糖、盐和添加剂。我习惯用柠檬汁、黑胡椒、蒜末、香草碎来调味，或者用无糖酸奶代替沙拉酱。这样既能尝到食物本真的味道，又减少了不必要的热量和钠摄入，舌头也会变得更敏感，能尝出蔬菜的清甜。</p>
+
+            <p><strong>第四，零食换成原味坚果和水果。</strong> 以前下午三四点总是饿得心慌，想点炸鸡奶茶。后来我把零食柜换成了核桃、巴旦木、蓝莓和苹果。坚果提供优质脂肪和饱腹感，水果补充维生素和天然糖分。每次只抓一小把（约20克），配一杯无糖茶，既解馋又健康，精力也更稳定。</p>
+
+            <p><strong>第五，晚餐尽量在睡前 3 小时完成，且吃得清淡。</strong> 夜晚消化系统需要休息，太晚进食会影响睡眠质量，也容易导致脂肪囤积。我一般会在 18:30 前吃完晚餐，以汤、蒸菜、粥为主，减少油腻和辛辣。如果睡前实在饿，会喝一小杯热牛奶或吃几颗樱桃，既安神又不会增加肠胃负担。</p>
+
+            <p>这些习惯看起来微不足道，但它们共同构建了身体的“底层代码”。坚持三个月后，我的体重自然回落到健康范围，皮肤变得透亮，精力更充沛，连情绪都稳定了很多。最重要的是，我没有经历痛苦的节食，只是在日常中做了些微调。</p>
+
+            <p>饮食不是束缚，而是对自己温柔的爱。希望我的分享能给你一些启发，从今天开始，选一两个习惯试试看。你不需要完美，只需要开始。祝你吃得开心，活得轻盈。🍃</p>
+        </div>
+        <a href="../article.html" class="back-link">← 返回列表</a>
+    </div>
+
+</body>
+</html>

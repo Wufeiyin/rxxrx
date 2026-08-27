@@ -1,0 +1,150 @@
+/* 容器：宽度100%，高度由背景图撑开 */
+.bg-wrapper {
+    position: relative;   /* 为图标提供参照 */
+    width: 100%;
+}
+
+.bg-image {
+    display: block;       /* 让图片撑开容器 */
+    width: 100%;
+    height: auto;
+   
+}
+
+.Camera-img {
+    position: absolute;
+    left: 77%;            /* 水平位置（相对于容器宽度） */
+    top: 75%;             /* 垂直位置（相对于容器高度） */
+    transform: translate(-50%, -50%);
+    width: 11%;         /* 图标大小*/
+    height: auto;
+    cursor: pointer;
+    z-index: 10;
+    transition: filter 0.3s, transform 0.3s;
+}
+
+.Camera-img:hover {
+    transform: translate(-50%, -50%) scale(1.05);
+    filter: brightness(1.1);
+}
+
+
+body {
+    margin: 0;
+    background: transparent; 
+}
+
+
+.note-img {
+    position: absolute;
+    left: 24%;            
+    top: 63%;             
+    transform: translate(-50%, -50%);
+    width: 11%;         
+    height: auto;
+    cursor: pointer;
+    z-index: 10;
+    transition: filter 0.3s, transform 0.3s;
+}
+
+.note-img:hover {
+    transform: translate(-50%, -50%) scale(1.05);
+    filter: brightness(1.1);
+}
+
+.comment-img {
+    position: absolute;
+    left: 33%;           
+    top: 80%;             
+    transform: translate(-50%, -50%);
+    width: 11%;       
+    height: auto;
+    cursor: pointer;
+    z-index: 10;
+    transition: filter 0.3s, transform 0.3s;
+}
+
+.comment-img:hover {
+    transform: translate(-50%, -50%) scale(1.05);
+    filter: brightness(1.1);
+}
+
+
+.music-img {
+    position: absolute;
+    left: 45%;          
+    top: 60%;             
+    transform: translate(-50%, -50%);
+    width: 11%;        
+    height: auto;
+    cursor: pointer;
+    z-index: 10;
+    transition: filter 0.3s, transform 0.3s;
+}
+
+.music-img:hover {
+    transform: translate(-50%, -50%) scale(1.05);
+    filter: brightness(1.1);
+}
+
+
+/**/
+/* 文字段落容器*/
+.hero-text {
+    position: absolute;
+    top: 8%;                /* 距离顶部 */
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    z-index: 20;            /* 确保在背景图之上，图标之下（若需要可调整） */
+    pointer-events: none;   /* 鼠标事件穿透 */
+    width: 100%;
+    max-width: 80%;
+}
+
+/* 每一行文字 */
+.hero-text .line {
+    color: #ffffff;
+    font-size: 2rem;
+    font-weight: 600;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    margin-bottom: 12px;
+    opacity: 0;              /* 初始透明 */
+    transform: translateY(30px); /* 初始向下偏移 */
+    animation: fadeInUp 1.2s ease forwards;
+}
+
+/* 设置延迟 */
+.hero-text .line-1 {
+    animation-delay: 0.2s;
+}
+.hero-text .line-2 {
+    animation-delay: 0.8s;
+}
+.hero-text .line-3 {
+    animation-delay: 1.4s;
+}
+
+/* 关键帧：渐强浮入 */
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ====== 移动端适配 ====== */
+@media (max-width: 600px) {
+    .hero-text {
+        top: 5%;
+        width: 90%;
+    }
+    .hero-text .line {
+        font-size: 1px;
+        margin-bottom: 6px;
+    }
+}
