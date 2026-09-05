@@ -21,23 +21,23 @@
         <div class="card-header">
             <div class="avatar">A</div>
             <div class="user-info">
-                <div class="name">初音未来</div>
-                <div class="desc">⏰ 刚刚 · 摄影日记</div>
+                <div class="name">十二月草莓田</div>
+                <div class="desc">⏰ 2026/8/30 · 摄影日记</div>
             </div>
         </div>
         <p style="margin: 12px 0 4px 0; font-size: 15px; color: #1a1a1a;">
-            ☀️ 少女与咖啡。
+            ☀️ Sun.
         </p>
         <div class="grid">
-            <div class="grid-item"><img src="../images/miku.png" alt="1"></div>
-            <div class="grid-item"><img src="https://picsum.photos/seed/b2/400" alt="2"></div>
-            <div class="grid-item"><img src="https://picsum.photos/seed/c3/400" alt="3"></div>
-            <div class="grid-item"><img src="https://picsum.photos/seed/d4/400" alt="4"></div>
-            <div class="grid-item"><img src="https://picsum.photos/seed/e5/400" alt="5"></div>
-            <div class="grid-item"><img src="https://picsum.photos/seed/f6/400" alt="6"></div>
-            <div class="grid-item"><img src="https://picsum.photos/seed/g7/400" alt="7"></div>
-            <div class="grid-item"><img src="https://picsum.photos/seed/h8/400" alt="8"></div>
-            <div class="grid-item"><img src="https://picsum.photos/seed/i9/400" alt="9"></div>
+            <div class="grid-item"><img src="../images/2026.9十二月草莓田/草莓1.jpg" alt="1"></div>
+            <div class="grid-item"><img src="../images/2026.9十二月草莓田/草莓2.jpg" alt="2"></div>
+            <div class="grid-item"><img src="../images/2026.9十二月草莓田/草莓3.jpg" alt="3"></div>
+            <div class="grid-item"><img src="../images/2026.9十二月草莓田/草莓4.jpg" alt="4"></div>
+            <div class="grid-item"><img src="../images/2026.9十二月草莓田/草莓5.jpg" alt="5"></div>
+            <div class="grid-item"><img src="../images/2026.9十二月草莓田/草莓6.jpg" alt="6"></div>
+            <div class="grid-item"><img src="../images/2026.9十二月草莓田/草莓7.jpg" alt="7"></div>
+            <div class="grid-item"><img src="../images/2026.9十二月草莓田/草莓8.jpg" alt="8"></div>
+            <div class="grid-item"><img src="../images/2026.9十二月草莓田/草莓9.jpg" alt="9"></div>
         </div>
         <div style="display: flex; align-items: center; margin-top: 14px; color: #999; font-size: 13px;">
             <span style="margin-right: 16px;">❤️ 23</span>
@@ -213,27 +213,36 @@
     <div class="lightbox" id="lightbox">
         <span class="close-btn" id="closeBtn">&times;</span>
         <img id="lightboxImg" src="" alt="大图预览">
-        <div class="hint">点击背景或 ✕ 关闭</div>
+        <div class="hint">左右滑动或点击切图 · 点击 ✕ 关闭</div>
     </div>
 
     <script>
         (function() {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightboxImg');
+            const closeBtn = document.getElementById('closeBtn');
+            const galleryImages = Array.from(document.querySelectorAll('.grid-item img'));
+            let currentIndex = 0;
+            let touchStartX = 0;
+            let touchStartY = 0;
+            let suppressClick = false;
+
+            function showImage(index) {
+                currentIndex = (index + galleryImages.length) % galleryImages.length;
+                lightboxImg.src = galleryImages[currentIndex].src;
+            }
+
             // 使用事件委托监听所有动态/静态卡片里的图片
             document.addEventListener('click', function(e) {
                 const img = e.target.closest('.grid-item img');
                 if (!img) return;
 
-                const lightbox = document.getElementById('lightbox');
-                const lightboxImg = document.getElementById('lightboxImg');
-                
+                currentIndex = galleryImages.indexOf(img);
                 e.stopPropagation();
-                lightboxImg.src = img.src;
+                showImage(currentIndex);
                 lightbox.classList.add('active');
                 document.body.style.overflow = 'hidden';
             });
-
-            const lightbox = document.getElementById('lightbox');
-            const closeBtn = document.getElementById('closeBtn');
 
             function closeLightbox() {
                 lightbox.classList.remove('active');
@@ -241,8 +250,37 @@
             }
 
             closeBtn.addEventListener('click', closeLightbox);
+            lightbox.addEventListener('touchstart', function(e) {
+                if (e.touches.length !== 1) return;
+
+                touchStartX = e.touches[0].clientX;
+                touchStartY = e.touches[0].clientY;
+            }, { passive: true });
+            lightbox.addEventListener('touchend', function(e) {
+                if (e.changedTouches.length !== 1) return;
+
+                const touchEndX = e.changedTouches[0].clientX;
+                const touchEndY = e.changedTouches[0].clientY;
+                const distanceX = touchEndX - touchStartX;
+                const distanceY = touchEndY - touchStartY;
+
+                if (Math.abs(distanceX) < 50 || Math.abs(distanceX) <= Math.abs(distanceY)) return;
+
+                showImage(currentIndex + (distanceX < 0 ? 1 : -1));
+                suppressClick = true;
+            }, { passive: true });
             lightbox.addEventListener('click', function(e) {
-                if (e.target === this) closeLightbox();
+                if (e.target === closeBtn) return;
+                if (suppressClick) {
+                    suppressClick = false;
+                    return;
+                }
+
+                if (e.clientX < window.innerWidth / 2) {
+                    showImage(currentIndex - 1);
+                } else {
+                    showImage(currentIndex + 1);
+                }
             });
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape') closeLightbox();
